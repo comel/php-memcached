@@ -871,7 +871,9 @@ static void php_memc_getMulti_impl(INTERNAL_FUNCTION_PARAMETERS, zend_bool by_ke
 	}
 
 	if (i_obj->rescode == MEMCACHED_SUCCESS && status != MEMCACHED_SUCCESS && status != MEMCACHED_END) {
-		status = MEMCACHED_SOME_ERRORS;
+		if (status != MEMCACHED_NOTFOUND) {
+			status = MEMCACHED_SOME_ERRORS;
+		}
 		php_memc_handle_error(i_obj, status TSRMLS_CC);
 	}
 
